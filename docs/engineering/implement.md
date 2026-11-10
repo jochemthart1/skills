@@ -35,8 +35,8 @@ A run has five steps, in order:
 1. Read the ticket or spec and work out the seams.
 2. Drive [tdd](https://aihero.dev/skills-tdd) at the pre-agreed seams, one red-green slice at a time.
 3. Typecheck often, run single test files as it goes.
-4. Run the full test suite once, at the end.
-5. Run [code-review](https://aihero.dev/skills-code-review), then commit to the current branch.
+4. At the end, run the tests the ticket names: **related tests** (the ones it wrote or changed, plus existing tests covering the code it touched), or the **full suite** on a full-tests ticket, a lone ticket, or a ticket that names none.
+5. Run [code-review](https://aihero.dev/skills-code-review) on this ticket's diff (skipped on a full-tests ticket that changed no code), commit to the current branch with `Closes #<n>`, and close the ticket.
 
 One run covers one ticket. The tickets [to-tickets](https://aihero.dev/skills-to-tickets) produces are tracer-bullet vertical slices sized to fit a single fresh [context window](https://www.aihero.dev/ai-coding-dictionary/context-window), so the intended rhythm is: clear context, implement one ticket, commit, clear again. Each ticket is self-contained, so you can discard the previous ticket's context.
 
@@ -48,9 +48,9 @@ The "pre-agreed" part matters, and it is also the skill's weakest point. Nothing
 
 ## Common questions
 
-**It finished, but my ticket is still open and the acceptance criteria are still unchecked.**
+**It finished, but the acceptance criteria are still unchecked.**
 
-Correct, and expected. `implement` has no completion step. It ends at the commit and never touches the work item. This is the same on GitHub Issues and on the local markdown tracker, so it is not a tracker integration problem. It also does not act on the findings `code-review` produced, and does not tick the `- [ ]` boxes on the originating issue. Close the ticket and reconcile the criteria yourself. This matters most on a dependency chain, because `to-tickets` defines the frontier as tickets whose blockers are all closed. If nothing gets closed, nothing ever becomes visibly unblocked.
+`implement` closes the ticket after committing, so the frontier moves on its own, but it does not tick the `- [ ]` boxes. It also does not act on the findings `code-review` produced, and does not tick the `- [ ]` boxes on the originating issue. Reconcile the criteria yourself if you want them ticked.
 
 **Can I point it at all my tickets at once, or run several in parallel?**
 
@@ -78,8 +78,8 @@ The agent resolved `#2` against another numbered list in context, such as a todo
 
 - The session opens by reading the ticket or spec and restating what it will build, rather than asking you what to build.
 - You can see an actual `tdd` Skill tool call in the trace, not just tests appearing in the diff.
-- Typechecks and single test files run repeatedly during the run, and the full suite runs once near the end.
-- The run reaches a commit on your current branch without you prompting it to carry on.
+- Typechecks and single test files run repeatedly during the run, and near the end it runs exactly the tests the ticket names: related tests on a work ticket, the full suite on a full-tests or lone ticket.
+- The run reaches a commit on your current branch and closes the ticket without you prompting it to carry on.
 - The diff is one ticket's worth of change: a vertical slice through every layer, not several tickets swept together.
 
 ## Where it fits

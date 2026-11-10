@@ -6,7 +6,7 @@ Every ticket is a **tracer bullet**: a narrow but complete path through every la
 
 ## When to reach for it
 
-You invoke this by typing `/to-tickets`. The [agent](https://www.aihero.dev/ai-coding-dictionary/agent) won't reach for it on its own.
+You invoke this by typing `/to-tickets`, or let [grill-me](https://aihero.dev/skills-grill-me) and [grill-with-docs](https://aihero.dev/skills-grill-with-docs) call it once a grilling session reaches a shared understanding. It is model-invoked, so the [agent](https://www.aihero.dev/ai-coding-dictionary/agent) can also reach for it when you ask for tickets.
 
 | Where you are | What to run |
 | --- | --- |
@@ -29,6 +29,20 @@ A **horizontal** slice ships one layer of the change. Nothing works until every 
 This is the rule people break most often. One team ran a 26-ticket stack sliced by layer (corpus, producer, aggregator, selector) and got roughly twenty agent runs per closed ticket, about three quarters of them rework. Their own post-mortem traced every failure class back to the horizontal slicing rather than to the implementations.
 
 Two things happen before anything is published. `to-tickets` looks for prefactoring (the principle "make the change easy, then make the easy change") and orders that work first. Then it presents the breakdown as a numbered list and quizzes you on it: is the granularity right, are the blocking edges real, should anything merge or split. Nothing reaches the tracker until you approve, and that quiz is the place to push back.
+
+## Numbering and the full-tests ticket
+
+Each ticket is sized to fit in under 150k tokens of a fresh context window, counting reading the code, implementing, and running its related tests, because you `/clear` between tickets.
+
+One ticket of work stays one ticket: it runs the full test suite and commits. Two or more get a `(n/N)` suffix and a final **full-tests ticket** that carries no work, counted in N:
+
+| Ticket | Runs | Commits |
+| --- | --- | --- |
+| `Granary rework (1/3)` | Related tests: the ones it writes or changes, plus existing tests covering the code it touches | Its own work |
+| `Granary rework (2/3)` | Related tests | Its own work |
+| `Granary rework: full tests (3/3)` | The full suite, blocked by every work ticket | Its fixes, if any |
+
+When the full suite turns up a failure too big to fix in that ticket's budget, it opens a new ticket for the fix and stops without committing. No parent issue is created: the titles and the blocking chain group the tickets.
 
 ## Blocking edges
 
@@ -96,4 +110,4 @@ The skill stops at the artifact, and there is no auto-dispatch mode. Dispatch is
 grill-with-docs → to-spec → to-tickets → implement → code-review → retro
 ```
 
-Upstream is [to-spec](https://aihero.dev/skills-to-spec), which hands it a settled spec to slice against. Keep both in one context window, with no clear between them. Downstream is [implement](https://aihero.dev/skills-implement), which builds one ticket per fresh session, driving [tdd](https://aihero.dev/skills-tdd) for the tests and closing with [code-review](https://aihero.dev/skills-code-review). [implement-spec](https://aihero.dev/skills-implement-spec) is the other way down. It reads the same blocking edges as a task graph and builds every ready ticket in parallel on one integration branch. When you're unsure which skill or flow fits, [ask-matt](https://aihero.dev/skills-ask-matt) routes you.
+Upstream is [to-spec](https://aihero.dev/skills-to-spec), which hands it a settled spec to slice against, or a grilling session that calls it directly. Keep both in one context window, with no clear between them. Downstream is [implement](https://aihero.dev/skills-implement), which builds one ticket per fresh session, driving [tdd](https://aihero.dev/skills-tdd) for the tests and closing with [code-review](https://aihero.dev/skills-code-review). [implement-spec](https://aihero.dev/skills-implement-spec) is the other way down. It reads the same blocking edges as a task graph and builds every ready ticket in parallel on one integration branch. When you're unsure which skill or flow fits, [ask-matt](https://aihero.dev/skills-ask-matt) routes you.

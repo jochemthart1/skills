@@ -1,7 +1,6 @@
 ---
 name: to-tickets
-description: Break a plan, spec, or the current conversation into a set of tracer-bullet tickets, each declaring its blocking edges, published to the configured tracker (edges as text in one file per ticket locally, or native blocking links on a real tracker).
-disable-model-invocation: true
+description: Break a plan, spec, or the current conversation into a set of tracer-bullet tickets, each declaring its blocking edges, published to the configured tracker (edges as text in one file per ticket locally, or native blocking links on a real tracker). Use when the user wants tickets or issues made from a plan, or when a grilling session has reached a shared understanding that should become work.
 ---
 
 # To Tickets
@@ -30,10 +29,18 @@ Break the work into **tracer bullet** tickets.
 
 - Each slice cuts a narrow but COMPLETE path through every layer (schema, API, UI, tests): vertical, NOT a horizontal slice of one layer
 - A completed slice is demoable or verifiable on its own
-- Each slice is sized to fit in a single fresh context window
+- Each slice is sized to fit in under 150k tokens of a fresh context window, counting reading the code, implementing, and running its related tests. The user clears context between tickets, so a ticket can rely on nothing but its own text and the code
 - Any prefactoring should be done first
 
 </vertical-slice-rules>
+
+**Numbering and the full-tests ticket.** One ticket of work stays a single ticket: it runs the full test suite and commits. Two or more tickets of work get a final **full-tests ticket** that carries no work:
+
+- Title every ticket with a `(n/N)` suffix, where N counts the full-tests ticket: `Granary rework (1/3)`, `Granary rework (2/3)`, `Granary rework: full tests (3/3)`.
+- Each work ticket runs only its **related tests**: the tests it writes or changes, plus the existing tests covering the code it touches. Its acceptance criteria say "Related tests pass".
+- The full-tests ticket is blocked by every work ticket. Its acceptance criteria say "Full test suite passes". It fixes any failures itself; when a fix won't fit in its budget, it creates a new ticket for that fix, records the failure, and stops without committing.
+- A single ticket of work gets no suffix, and its criteria say "Full test suite passes".
+- Every ticket ends in its own commit.
 
 Give each ticket its **blocking edges**: the other tickets that must complete before it can start. A ticket with no blockers can start immediately.
 
@@ -43,7 +50,7 @@ Give each ticket its **blocking edges**: the other tickets that must complete be
 
 Present the proposed breakdown as a numbered list. For each ticket, show:
 
-- **Title**: short descriptive name
+- **Title**: short descriptive name, with its `(n/N)` suffix
 - **Blocked by**: which other tickets (if any) must complete first
 - **What it delivers**: the end-to-end behaviour this ticket makes work
 
@@ -60,7 +67,7 @@ Iterate until the user approves the breakdown.
 Publish the approved tickets. **How** depends on the tracker `/setup-matt-pocock-skills` configured; the tickets are the same either way, only the shape of the blocking edges changes:
 
 - **Local files** → write one file per ticket under `.scratch/<feature-slug>/issues/<NN>-<slug>.md`, numbered from `01` in dependency order (blockers first). Each file's "Blocked by" lists the numbers/titles it depends on. Use the per-ticket file template below: one ticket per file, never a single combined file.
-- **A real issue tracker (GitHub, Linear, …)** → publish one issue per ticket in dependency order (blockers first) so each ticket's blocking edges can reference real identifiers. Use the platform's native blocking relationship where it has one; otherwise set each ticket's "Blocked by" to the blocking issues. If the source was an existing issue, make each ticket its sub-issue (tracker doc's operation). Apply the `ready-for-agent` triage label unless instructed otherwise; the tickets are agent-grabbable by construction.
+- **A real issue tracker (GitHub, Linear, …)** → publish one issue per ticket in dependency order (blockers first) so each ticket's blocking edges can reference real identifiers. Use the platform's native blocking relationship where it has one; otherwise set each ticket's "Blocked by" to the blocking issues. Create no parent issue: the `(n/N)` titles and blocking chain group the tickets. If the source was an existing issue, make each ticket its sub-issue (tracker doc's operation). Apply the `ready-for-agent` triage label unless instructed otherwise; the tickets are agent-grabbable by construction.
 
 Work the **frontier**: any ticket whose blockers are all done. For a purely linear chain that means top to bottom.
 
@@ -78,6 +85,7 @@ Do NOT close or modify any parent issue.
 
 - [ ] Acceptance criterion 1
 - [ ] Acceptance criterion 2
+- [ ] Related tests pass (or, on the full-tests ticket or a lone ticket: Full test suite passes)
 
 </local-ticket-template>
 
@@ -95,6 +103,7 @@ The end-to-end behaviour this ticket makes work, from the user's perspective, no
 
 - [ ] Criterion 1
 - [ ] Criterion 2
+- [ ] Related tests pass (or, on the full-tests ticket or a lone ticket: Full test suite passes)
 
 ## Blocked by
 
