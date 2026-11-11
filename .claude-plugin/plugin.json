@@ -1,13 +1,13 @@
 {
-  "name": "mattpocock-skills",
+  "name": "jochem-skills",
   "version": "1.4.0",
-  "description": "Matt Pocock's agent skills for real engineering: grilling, spec/ticket flows, TDD, code review, domain modelling and more. Plug-and-play, not vibe coding.",
+  "description": "Jochem's fork of Matt Pocock's agent skills: grilling, spec/ticket flows, TDD, code review, domain modelling and more.",
   "author": {
-    "name": "Matt Pocock",
-    "url": "https://www.aihero.dev"
+    "name": "Jochem",
+    "url": "https://github.com/jochemthart1"
   },
-  "homepage": "https://www.aihero.dev/s/skills-newsletter",
-  "repository": "https://github.com/mattpocock/skills",
+  "homepage": "https://github.com/jochemthart1/skills",
+  "repository": "https://github.com/jochemthart1/skills",
   "license": "MIT",
   "keywords": [
     "engineering",
