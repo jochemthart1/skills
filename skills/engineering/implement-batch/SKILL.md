@@ -58,6 +58,8 @@ Implement ticket #<n> (<title>). Read `<absolute path to implement/SKILL.md>` an
 
 Other implementers may be working in this same working tree at the same time, and it may hold the user's own uncommitted changes. The git index is shared too, so commit only the paths this ticket changed, each by name: `git add <paths>`, then `git commit -m "..." -- <paths>`. Leave every other change in the tree as you found it; `git add -A`, `git add .` and a bare `git commit` would sweep it into your commit.
 
+Run the tests the ticket's acceptance criteria name. On "Related tests pass", run only the tests this ticket touched, of every test kind, even where the project docs say to run a suite in full at the end of each issue: only the full-tests ticket, `(N/N)`, runs full suites.
+
 The user is not watching this run. For its duration, this rule replaces every "ask the user" rule in the skills and the project's docs:
 
 - **Non-blocking question**: decide it yourself. Record it as question / options / choice / why in a "Decisions" section of your final report, and as a comment on #<n>.

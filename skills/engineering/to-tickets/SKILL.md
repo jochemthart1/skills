@@ -37,7 +37,7 @@ Break the work into **tracer bullet** tickets.
 **Numbering and the full-tests ticket.** One ticket of work stays a single ticket: it runs the full test suite and commits. Two or more tickets of work get a final **full-tests ticket** that carries no work:
 
 - Title every ticket with a `(n/N)` suffix, where N counts the full-tests ticket: `Granary rework (1/3)`, `Granary rework (2/3)`, `Granary rework: full tests (3/3)`.
-- Each work ticket runs only its **related tests**: the tests it writes or changes, plus the existing tests covering the code it touches. Its acceptance criteria say "Related tests pass".
+- Each work ticket runs only its **related tests**: the tests it writes or changes, plus the existing tests covering the code it touches, per test kind (unit, integration, end-to-end): never a full suite, even where the project docs say to run one at the end of every issue. Its acceptance criteria say "Related tests pass".
 - The full-tests ticket is blocked by every work ticket. Its acceptance criteria say "Full test suite passes", followed by the steps of the "Batch end" section in the project's `CLAUDE.md` / agent docs (when there is one), copied in as criteria so the ticket stands on its own. It fixes any failures itself; when a fix won't fit in its budget, it creates a new ticket for that fix, records the failure, and stops without committing.
 - A single ticket of work gets no suffix, and its criteria say "Full test suite passes".
 - Every ticket ends in its own commit.

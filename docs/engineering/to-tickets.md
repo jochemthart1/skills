@@ -42,7 +42,7 @@ One ticket of work stays one ticket: it runs the full test suite and commits. Tw
 | `Granary rework (2/3)` | Related tests | Its own work |
 | `Granary rework: full tests (3/3)` | The full suite, blocked by every work ticket | Its fixes, if any |
 
-The full-tests ticket also copies in the steps of the "Batch end" section of your project's `CLAUDE.md` (or other agent docs), when there is one, as acceptance criteria, so it stands on its own. When the full suite turns up a failure too big to fix in that ticket's budget, it opens a new ticket for the fix and stops without committing. No parent issue is created: the titles and the blocking chain group the tickets.
+A work ticket never runs a full suite of any test kind, even when your project docs say to run one at the end of every issue: that's the full-tests ticket's job. The full-tests ticket also copies in the steps of the "Batch end" section of your project's `CLAUDE.md` (or other agent docs), when there is one, as acceptance criteria, so it stands on its own. When the full suite turns up a failure too big to fix in that ticket's budget, it opens a new ticket for the fix and stops without committing. No parent issue is created: the titles and the blocking chain group the tickets.
 
 ## Direct changes and parallel-safe
 
