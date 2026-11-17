@@ -24,7 +24,7 @@ You have the batch when you hold exactly one ticket for every k from 1 to N. Whe
 For every open ticket, read:
 
 - **Blocking edges**: the tracker's native dependencies (GitHub issue dependencies, Linear relations), or the ticket's "Blocked by" section. A blocker outside the batch counts too.
-- **Parallel-safe**: the ticket body's `Parallel-safe: yes` line (markdown emphasis around it doesn't matter). Any other value, or no such line, means not parallel-safe.
+- **Parallel-safe**: the ticket body's `Parallel-safe:` line, as `/to-tickets` writes it: `**Parallel-safe:** yes (reason)`. Markdown emphasis and the reason after the value don't matter. A value other than `yes`, or no such line, means not parallel-safe.
 
 State the batch to the user in a few lines: each ticket's number, title, done or open, and its blockers.
 
@@ -75,7 +75,7 @@ Relay a `BLOCKED` question to the user with its options and the implementer's re
 
 A ticket **fails** when it ends with failing tests, creates a follow-up ticket, or stops without committing for any reason other than `BLOCKED`. Then:
 
-- Start no ticket that depends on it, directly or through other tickets, and never start the full-tests ticket for the rest of this run.
+- Start no ticket that depends on it, directly or through other tickets, and never start the full-tests ticket (the `(N/N)` one) for the rest of this run.
 - Let running tickets finish, and keep starting frontier tickets that don't depend on it.
 - Leave the failed ticket as it is: the failure goes in the end report for the user to decide, and a retry is theirs to ask for.
 
