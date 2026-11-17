@@ -38,11 +38,15 @@ Break the work into **tracer bullet** tickets.
 
 - Title every ticket with a `(n/N)` suffix, where N counts the full-tests ticket: `Granary rework (1/3)`, `Granary rework (2/3)`, `Granary rework: full tests (3/3)`.
 - Each work ticket runs only its **related tests**: the tests it writes or changes, plus the existing tests covering the code it touches. Its acceptance criteria say "Related tests pass".
-- The full-tests ticket is blocked by every work ticket. Its acceptance criteria say "Full test suite passes". It fixes any failures itself; when a fix won't fit in its budget, it creates a new ticket for that fix, records the failure, and stops without committing.
+- The full-tests ticket is blocked by every work ticket. Its acceptance criteria say "Full test suite passes", followed by the steps of the "Batch end" section in the project's `CLAUDE.md` / agent docs (when there is one), copied in as criteria so the ticket stands on its own. It fixes any failures itself; when a fix won't fit in its budget, it creates a new ticket for that fix, records the failure, and stops without committing.
 - A single ticket of work gets no suffix, and its criteria say "Full test suite passes".
 - Every ticket ends in its own commit.
 
 Give each ticket its **blocking edges**: the other tickets that must complete before it can start. A ticket with no blockers can start immediately.
+
+**The direct-change ticket.** The **direct changes** a grilling session collected (glossary terms, ADRs, `CLAUDE.md` or docs lines, data values) all go into **one** work ticket of the batch, usually small. It blocks only the tickets that need its result.
+
+**Parallel-safe.** Mark every ticket `Parallel-safe: yes` or `Parallel-safe: no`, judged by the parallel-safe rule in the project's `CLAUDE.md` / agent docs; `/implement-batch` runs parallel-safe tickets side by side. With no rule found, every ticket is `no`. Judge the direct-change ticket by what it touches: under a typical rule, docs only is `yes`, a data file the tests read is `no`.
 
 **Wide refactors are the exception to vertical slicing.** A **wide refactor** is one mechanical change (rename a column, retype a shared symbol) whose **blast radius** fans across the whole codebase, so a single edit breaks thousands of call sites at once and no vertical slice can land green. Don't force it into a tracer bullet; sequence it as **expand–contract**. First expand: add the new form beside the old so nothing breaks. Then migrate the call sites over in batches sized by blast radius (per package, per directory), each batch its own ticket blocked by the expand, keeping CI green batch to batch because the old form still exists. Finally contract: delete the old form once no caller remains, in a ticket blocked by every migrate batch. When even the batches can't stay green alone, keep the sequence but let them share an integration branch that all block a final integrate-and-verify ticket; green is promised only there.
 
@@ -52,6 +56,7 @@ Present the proposed breakdown as a numbered list. For each ticket, show:
 
 - **Title**: short descriptive name, with its `(n/N)` suffix
 - **Blocked by**: which other tickets (if any) must complete first
+- **Parallel-safe**: yes or no
 - **What it delivers**: the end-to-end behaviour this ticket makes work
 
 Ask the user:
@@ -81,6 +86,8 @@ Do NOT close or modify any parent issue.
 
 **Blocked by:** the numbers/titles of the tickets that gate this one, or "None (can start immediately)".
 
+**Parallel-safe:** yes / no, with the reason in a few words.
+
 **Status:** ready-for-agent
 
 - [ ] Acceptance criterion 1
@@ -98,6 +105,8 @@ A reference to the parent issue on the tracker (if the source was an existing is
 ## What to build
 
 The end-to-end behaviour this ticket makes work, from the user's perspective, not layer-by-layer implementation.
+
+**Parallel-safe:** yes / no, with the reason in a few words.
 
 ## Acceptance criteria
 

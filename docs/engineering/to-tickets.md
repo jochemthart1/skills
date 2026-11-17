@@ -42,7 +42,13 @@ One ticket of work stays one ticket: it runs the full test suite and commits. Tw
 | `Granary rework (2/3)` | Related tests | Its own work |
 | `Granary rework: full tests (3/3)` | The full suite, blocked by every work ticket | Its fixes, if any |
 
-When the full suite turns up a failure too big to fix in that ticket's budget, it opens a new ticket for the fix and stops without committing. No parent issue is created: the titles and the blocking chain group the tickets.
+The full-tests ticket also copies in the steps of the "Batch end" section of your project's `CLAUDE.md` (or other agent docs), when there is one, as acceptance criteria, so it stands on its own. When the full suite turns up a failure too big to fix in that ticket's budget, it opens a new ticket for the fix and stops without committing. No parent issue is created: the titles and the blocking chain group the tickets.
+
+## Direct changes and parallel-safe
+
+A grilling session edits no files. The file changes it settled (glossary terms, ADRs, `CLAUDE.md` or docs lines, data values) arrive as **direct changes**, and `to-tickets` puts them all into **one** work ticket of the batch, usually a small one. It blocks only the tickets that need its result.
+
+Every ticket carries a `Parallel-safe: yes` or `Parallel-safe: no` line, judged by the parallel-safe rule in your project's `CLAUDE.md` or agent docs. [implement-batch](https://aihero.dev/skills-implement-batch) runs parallel-safe tickets side by side. With no rule in the project, every ticket is `no`. The direct-change ticket is judged by what it touches: under a typical rule, docs only is `yes`, a data file the tests read is `no`.
 
 ## Blocking edges
 
@@ -98,6 +104,7 @@ The skill stops at the artifact, and there is no auto-dispatch mode. Dispatch is
 - Every ticket has an answer to "what can I demo when this is done?", and the answer is behaviour, not a layer.
 - The list comes back to you numbered, with a "Blocked by" line on each, before anything is published.
 - The ticket at the top has no blockers and can be started immediately.
+- Every ticket has a `Parallel-safe` line, and a grilling session's file changes sit in a single direct-change ticket.
 - Nothing in a ticket body is a file path or a line number, except a snippet a prototype produced.
 - Each ticket reads like something a fresh session could finish without you in the room.
 - Prefactoring, where it found any, is at the front of the order rather than mixed into feature tickets.
