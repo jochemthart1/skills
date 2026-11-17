@@ -14,6 +14,7 @@ Reachable only when you type them (Claude Code: `disable-model-invocation: true`
 - **[to-spec](./to-spec/SKILL.md)**: Turn the current conversation into a spec and publish it to the issue tracker.
 - **[implement](./implement/SKILL.md)**: Build the work described by a spec or ticket, driving `/tdd` at pre-agreed seams, running the tests the ticket names (related or full), and closing out with `/code-review` before committing and closing the ticket.
 - **[implement-spec](./implement-spec/SKILL.md)**: Implement a whole spec on one integration branch. Works the tickets as a task graph, running implementer subagents across the ready frontier for maximum concurrency, then closes out with `/code-review`.
+- **[implement-batch](./implement-batch/SKILL.md)**: Implement a whole `(n/N)` ticket batch from `/to-tickets`, one fresh background subagent per ticket, ending with a per-ticket report of commits and numbered decisions.
 - **[wayfinder](./wayfinder/SKILL.md)**: Plan a huge chunk of work (more than one agent session can hold) as a shared map of decision tickets on the issue tracker, resolved one at a time until the way to the destination is clear.
 - **[retro](./retro/SKILL.md)**: Suggest improvements to the coding agent's environment (navigation, automated checks, coding standards, steering files, tooling) after a session, most severe first.
 

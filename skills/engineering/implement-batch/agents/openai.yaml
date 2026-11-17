@@ -1,0 +1,5 @@
+interface:
+  display_name: "Implement Batch"
+  short_description: "Implement a whole (n/N) ticket batch"
+policy:
+  allow_implicit_invocation: false
